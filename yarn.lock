@@ -43012,11 +43012,11 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^5.2.0":
-  version: 5.3.0
-  resolution: "type-fest@npm:5.3.0"
+  version: 5.3.1
+  resolution: "type-fest@npm:5.3.1"
   dependencies:
     tagged-tag: ^1.0.0
-  checksum: 4cc5915d98aea0d5a47cb9102e56142a07cdc8050d50e630d9a097bf4561542a356f6014a67cec33d3283be448dee2c5909e0e76e2744aab6282fdef86497be9
+  checksum: 5edbde057da53a22ba04b8169537ec2a12bb36abe2bce1d855a2a3dbbb72c55b9c088a5162bc4c31a8223e2d27fcc3f838a9644aa07fb6aa018d3c495648d38a
   languageName: node
   linkType: hard
 
