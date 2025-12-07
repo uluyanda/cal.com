@@ -27,7 +27,7 @@ jobs:
           yarn set version stable
 
       - name: Install Dependencies
-        run: yarn install --immutable --immutable-cache
+        run: yarn install --immutable
 
       - name: Build Cal.com
         run: yarn build
