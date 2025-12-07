@@ -27,7 +27,7 @@ jobs:
           yarn set version stable
 
       - name: Install Dependencies
-        run: yarn install --immutable
+        run: yarn install --frozen-lockfile
 
       - name: Build Cal.com
         run: yarn build
