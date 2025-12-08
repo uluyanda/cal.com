@@ -26,8 +26,8 @@ jobs:
           corepack enable
           yarn set version stable
 
-      - name: Install Dependencies
-        run: yarn install --immutable
+      - name: Install Dependencies (Generate Lockfile) 
+        run: yarn install
 
       - name: Build Cal.com
         run: yarn build
