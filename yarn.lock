@@ -13768,8 +13768,8 @@ __metadata:
   linkType: hard
 
 "@reduxjs/toolkit@npm:1.x.x || 2.x.x":
-  version: 2.11.0
-  resolution: "@reduxjs/toolkit@npm:2.11.0"
+  version: 2.11.1
+  resolution: "@reduxjs/toolkit@npm:2.11.1"
   dependencies:
     "@standard-schema/spec": ^1.0.0
     "@standard-schema/utils": ^0.3.0
@@ -13785,7 +13785,7 @@ __metadata:
       optional: true
     react-redux:
       optional: true
-  checksum: 66b98153d19d38b3afaa930c3edd85c6b3b15d6bbccefc883a1e7ee05571b31f759baea41b5d5d2cef2e51ce5550585d3ef2fc759a2008f438093fecd34c04d8
+  checksum: e803751c3721552826f6cc13f66ab6ec3addca7f406231f7976676b223e69896281977e968defaee8ab3c863c212408b728083d95266ef49f4d7aa826b152c31
   languageName: node
   linkType: hard
 
@@ -15241,11 +15241,11 @@ __metadata:
   linkType: hard
 
 "@snyk/protect@npm:latest":
-  version: 1.1301.0
-  resolution: "@snyk/protect@npm:1.1301.0"
+  version: 1.1301.1
+  resolution: "@snyk/protect@npm:1.1301.1"
   bin:
     snyk-protect: bin/snyk-protect
-  checksum: efebdbfe55df1cde100d456110ade7ce68cdfff96418f54cae207ac55752d6694358285fc9bab3ec058c31fecafc00f25691b4e1839201d3778c8b3430026db5
+  checksum: bcb3b4e3773873532dfb953474ae3397598bc6e135367e63f7293431c460b278ece51476551a2ea7b05c13bf8f0f0e977178030e415c917523aecdf3950d5e40
   languageName: node
   linkType: hard
 
@@ -16000,14 +16000,14 @@ __metadata:
   linkType: hard
 
 "@tanstack/react-virtual@npm:^3.10.9":
-  version: 3.13.12
-  resolution: "@tanstack/react-virtual@npm:3.13.12"
+  version: 3.13.13
+  resolution: "@tanstack/react-virtual@npm:3.13.13"
   dependencies:
-    "@tanstack/virtual-core": 3.13.12
+    "@tanstack/virtual-core": 3.13.13
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 7b64c728ae3666c22f6a1727d464f877c04ae02347480eab482c7a002c2a340167ded856e3dd52b19de34f965aeb01a1e223acdab44d646251c0aa89c3d69539
+  checksum: 956747d49af0f13b499f291d2c117ded6281d664b6881f354c9f7206f95b4b4185ffab8079053fb9d6945ff7ecd836a893af3ae01f4615e7080d1b8dbdb13381
   languageName: node
   linkType: hard
 
@@ -16018,10 +16018,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/virtual-core@npm:3.13.12":
-  version: 3.13.12
-  resolution: "@tanstack/virtual-core@npm:3.13.12"
-  checksum: bef2c3138543a2088fff7d4fa46624d07403b18d92ec5a7271e187457851535031a79bc78ac655355a221d5549ef3b5674a3b249d2531f4c17c93107498c8438
+"@tanstack/virtual-core@npm:3.13.13":
+  version: 3.13.13
+  resolution: "@tanstack/virtual-core@npm:3.13.13"
+  checksum: d21e2038747d0737005d23082aa3e00a4c0adfaf6a3326756b00383606187624a0327b64c5d3f81f26f4c32974c94c1e97e9a6c92be6a52cadd08d64b45bc1c8
   languageName: node
   linkType: hard
 
@@ -25555,9 +25555,9 @@ __metadata:
   linkType: hard
 
 "expect-type@npm:^1.1.0":
-  version: 1.2.2
-  resolution: "expect-type@npm:1.2.2"
-  checksum: dc347e853b059f95f3c897db2a6f5eab37662e7a0c3c9fcf014f25afa90fca76e5235246fd37e08f2c0535901b52f66b8ace1e0ee236673c4f70c36724bd3f42
+  version: 1.3.0
+  resolution: "expect-type@npm:1.3.0"
+  checksum: 60476b4f4c0c88bf24db0735faa7d1d0c9120c21e5b78781c0fea0d4a95838f2db0c919a055aa4bb185ccbf38e37fa3000d3bb05500ceafcc7c469955c5a4f84
   languageName: node
   linkType: hard
 
@@ -32043,13 +32043,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^7.14.1":
-  version: 7.18.3
-  resolution: "lru-cache@npm:7.18.3"
-  checksum: e550d772384709deea3f141af34b6d4fa392e2e418c1498c078de0ee63670f1f46f5eee746e8ef7e69e1c895af0d4224e62ee33e66a543a14763b0f2e74c1356
-  languageName: node
-  linkType: hard
-
 "lru-cache@npm:^9.0.3":
   version: 9.1.2
   resolution: "lru-cache@npm:9.1.2"
@@ -32057,7 +32050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru.min@npm:^1.0.0":
+"lru.min@npm:^1.0.0, lru.min@npm:^1.1.0":
   version: 1.1.3
   resolution: "lru.min@npm:1.1.3"
   checksum: 11451baf8606d29f77cc1e22fc917a4287dcf8d8c188f098c56c0b52489c4c6299ee8f910af53065d7bdd0073d3c5263c6003c5958877d7a03d305b977150e13
@@ -34070,11 +34063,11 @@ __metadata:
   linkType: hard
 
 "named-placeholders@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "named-placeholders@npm:1.1.3"
+  version: 1.1.4
+  resolution: "named-placeholders@npm:1.1.4"
   dependencies:
-    lru-cache: ^7.14.1
-  checksum: 7834adc91e92ae1b9c4413384e3ccd297de5168bb44017ff0536705ddc4db421723bd964607849265feb3f6ded390f84cf138e5925f22f7c13324f87a803dc73
+    lru.min: ^1.1.0
+  checksum: d46b15420bee3efe2f344311cde42446b3f81e8415ffd455fcf74132c0cfdb691d56d4878892cc83950240d401a44726fbb83b76a79f0b3ff422206d04d042a2
   languageName: node
   linkType: hard
 
