@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      
+       
       - name: Install Dependencies & Generate Prisma
         run: |
           corepack enable
@@ -30,6 +30,7 @@ jobs:
           # Explicitly generate the client for the monorepo workspace
           yarn workspace @calcom/prisma prisma generate
         env:
+          YARN_NODE_LINKER: node-modules
           YARN_ENABLE_SCRIPTS: false
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"      
