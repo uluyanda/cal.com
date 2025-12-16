@@ -22,14 +22,18 @@ jobs:
         with:
           node-version: '20'
       
-      - name: Install Dependencies & Generate Prisma
+      - name: Install Dependencies
+        # FIX: --ignore-scripts stops the TS6053 error during install
         run: |
           corepack enable
-          yarn install --no-immutable
-          yarn workspace @calcom/prisma prisma generate
+          yarn install --no-immutable --ignore-scripts
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
-          # Prisma needs a DB URL even if fake to generate the client
+
+      - name: Generate Prisma Client
+        # FIX: Since we ignored scripts above, we must manually trigger Prisma
+        run: yarn workspace @calcom/prisma prisma generate
+        env:
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
 
       - name: Build Cal.com
@@ -68,6 +72,7 @@ jobs:
             tar -xzf calcom-build.tar.gz
             rm calcom-build.tar.gz
             corepack enable
+            # PRODUCTION INSTALL: We only install what's needed to run
             yarn workspaces focus @calcom/web --production
             pm2 restart calcom || pm2 start "yarn workspace @calcom/web start" --name calcom
             pm2 save
