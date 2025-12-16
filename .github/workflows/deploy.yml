@@ -29,6 +29,8 @@ jobs:
           yarn install --no-immutable
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/calcom" # Dummy URL for build
+
       - name: Build Cal.com
         run: yarn build
 
