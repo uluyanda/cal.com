@@ -32,24 +32,31 @@ jobs:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
 
       - name: Generate Prisma Client
-        # We generate the client and then manually ensure it exists where Next.js expects it
         run: |
           yarn workspace @calcom/prisma prisma generate
-          # Monorepo fix: copy the generated client to the root node_modules if it's missing
+          
+          # 1. Ensure the root has it (where the error log is pointing)
           mkdir -p node_modules/.prisma/client
           cp -R packages/prisma/node_modules/.prisma/client/* node_modules/.prisma/client/ || true
+          
+          # 2. Ensure the Web app has it locally
+          mkdir -p apps/web/node_modules/.prisma/client
+          cp -R packages/prisma/node_modules/.prisma/client/* apps/web/node_modules/.prisma/client/ || true
+          
+          # 3. Double check the specific prisma client package location
+          mkdir -p node_modules/@prisma/client
+          cp -R packages/prisma/node_modules/@prisma/client/* node_modules/@prisma/client/ || true
         env:
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
 
       - name: Build Cal.com
         run: yarn build
         env:
-          # Bypasses the TypeScript decorator errors seen in your previous log
+          # Keep these to bypass the TypeScript errors from your earlier logs
           NEXTJS_IGNORE_TYPECHECK: true
           NEXTJS_IGNORE_ESLINT: true
-          # Tells Prisma where the schema is for the build phase
-          PRISMA_SCHEMA_PATH: "packages/prisma/schema.prisma"
-          # Crucial for Cal.com monorepos to find the client
+          # Force the workaround plugin to look at the root node_modules
+          PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
           NEXT__MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"
 
       - name: Build Cal.com
