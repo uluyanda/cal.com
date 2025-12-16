@@ -9,6 +9,7 @@ jobs:
     env:
       NODE_OPTIONS: --max_old_space_size=8192
       NEXT_PUBLIC_WEBAPP_URL: https://vocallink.co.za
+      # Dummy URL for build-time validation
       DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy" 
       NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET || 'placeholder_secret_for_build' }}
       CALENDSO_ENCRYPTION_KEY: ${{ secrets.CALENDSO_ENCRYPTION_KEY || 'placeholder_key_for_build' }}
@@ -35,7 +36,7 @@ jobs:
 
       - name: Package Build Artifacts
         run: |
-          # Grabbing exactly what is needed for the monorepo to run on the VPS
+          # Grabbing exactly what is needed for the monorepo to run
           tar -czf calcom-build.tar.gz \
             apps/web/.next/ \
             apps/web/public/ \
@@ -44,7 +45,8 @@ jobs:
             package.json \
             yarn.lock \
             .yarnrc.yml \
-            packages/prisma/schema.prisma
+            packages/prisma/schema.prisma \
+            packages/prisma/package.json
 
       - name: Deploy to VPS via SCP
         uses: appleboy/scp-action@v0.1.7
@@ -67,10 +69,9 @@ jobs:
             rm calcom-build.tar.gz
             
             corepack enable
-            # Focus only on production dependencies for the web workspace
+            # Install production dependencies for the web workspace
             yarn workspaces focus @calcom/web --production
             
-            # Restart with PM2
-            # We use 'yarn workspace @calcom/web start' to ensure monorepo paths are respected
+            # Restart with PM2 using the workspace start command
             pm2 restart calcom || pm2 start "yarn workspace @calcom/web start" --name calcom
             pm2 save
