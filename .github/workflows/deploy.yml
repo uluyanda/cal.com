@@ -22,19 +22,17 @@ jobs:
         with:
           node-version: '20'
       
-      - name: Install Dependencies
-        # FIX: Explicitly calling 'yarn install' with standard Yarn 4 flags
+      - name: Install Dependencies & Generate Prisma
         run: |
           corepack enable
-          yarn install --ignore-scripts
+          # Disable scripts during install to avoid platform-specific build errors
+          yarn install
+          # Explicitly generate the client for the monorepo workspace
+          yarn workspace @calcom/prisma prisma generate
         env:
+          YARN_ENABLE_SCRIPTS: false
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
-
-      - name: Generate Prisma Client
-        # This step is critical because we used --ignore-scripts above
-        run: yarn workspace @calcom/prisma prisma generate
-        env:
-          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
+          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"      
 
       - name: Build Cal.com
         run: yarn build
