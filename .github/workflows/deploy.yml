@@ -8,9 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_OPTIONS: --max_old_space_size=8192
-      # Required for Next.js build
       NEXT_PUBLIC_WEBAPP_URL: https://vocallink.co.za
-      DATABASE_URL: postgresql://dummy:dummy@localhost:5432/dummy 
+      DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy" 
       NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET || 'placeholder_secret_for_build' }}
       CALENDSO_ENCRYPTION_KEY: ${{ secrets.CALENDSO_ENCRYPTION_KEY || 'placeholder_key_for_build' }}
 
@@ -23,28 +22,29 @@ jobs:
         with:
           node-version: '20'
       
-      - name: Install Dependencies 
+      - name: Install Dependencies & Generate Prisma
         run: |
           corepack enable
-          yarn install --no-immutable --ignore-scripts
+          yarn install --no-immutable
           yarn workspace @calcom/prisma prisma generate
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
-          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/calcom" # Dummy URL for build
 
       - name: Build Cal.com
         run: yarn build
 
       - name: Package Build Artifacts
         run: |
-          # Package only what is needed for production runtime
+          # Grabbing exactly what is needed for the monorepo to run on the VPS
           tar -czf calcom-build.tar.gz \
-            .next/ \
-            public/ \
+            apps/web/.next/ \
+            apps/web/public/ \
+            apps/web/next.config.js \
+            apps/web/package.json \
             package.json \
             yarn.lock \
             .yarnrc.yml \
-            next.config.mjs
+            packages/prisma/schema.prisma
 
       - name: Deploy to VPS via SCP
         uses: appleboy/scp-action@v0.1.7
@@ -66,12 +66,11 @@ jobs:
             tar -xzf calcom-build.tar.gz
             rm calcom-build.tar.gz
             
-            # Ensure production env vars are loaded on the VPS
-            # Assuming you have a .env file already at /home/deploy/cal.com/.env
-            
             corepack enable
-            yarn install --production
+            # Focus only on production dependencies for the web workspace
+            yarn workspaces focus @calcom/web --production
             
-            # Use PM2 to manage the process
-            pm2 restart calcom || pm2 start "yarn start" --name calcom
+            # Restart with PM2
+            # We use 'yarn workspace @calcom/web start' to ensure monorepo paths are respected
+            pm2 restart calcom || pm2 start "yarn workspace @calcom/web start" --name calcom
             pm2 save
