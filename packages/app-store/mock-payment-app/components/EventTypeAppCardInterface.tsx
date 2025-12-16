@@ -98,10 +98,10 @@ const EventTypeAppCard: EventTypeAppCardComponent = function EventTypeAppCard({ 
                   value={selectedCurrency}
                   className="text-black"
                   defaultValue={selectedCurrency}
-                  onChange={(e) => {
+                  onChange={(e: { label: string; value: string } | null) => {
                     if (e) {
-                      setSelectedCurrency(e);
-                      setCurrencySymbol(currencySymbols[e.value]);
+                      setSelectedCurrency(e as any);
+                      setCurrencySymbol((currencySymbols as any)[e.value]);
                       setAppData("currency", e.value);
                     }
                   }}
@@ -121,7 +121,7 @@ const EventTypeAppCard: EventTypeAppCardComponent = function EventTypeAppCard({ 
                   options={paymentOptions.map((option) => {
                     return { ...option, label: t(option.label) || option.label };
                   })}
-                  onChange={(input) => {
+                  onChange={(input: { label: string; value: string } | null) => {
                     if (input) setAppData("paymentOption", input.value);
                   }}
                   className="mb-1 h-[38px] w-full"

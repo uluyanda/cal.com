@@ -121,9 +121,9 @@ function OutOfOfficeEntriesListContent({
         endDateFilterEndRange: endDateRange?.endDate ?? undefined,
       },
       {
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        getNextPageParam: (lastPage: any) => lastPage.nextCursor,
         placeholderData: keepPreviousData,
-      }
+      } as any
     );
 
   useEffect(() => {

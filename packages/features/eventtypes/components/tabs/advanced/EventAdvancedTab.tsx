@@ -276,7 +276,7 @@ const destinationCalendarComponents = {
                   }
                   className={customClassNames?.addToCalendarEmailOrganizer?.emailSelect?.select}
                   containerClassName={customClassNames?.addToCalendarEmailOrganizer?.emailSelect?.container}
-                  onChange={(option) =>
+                  onChange={(option: any | null) =>
                     formMethods.setValue("secondaryEmailId", option?.value, { shouldDirty: true })
                   }
                   value={verifiedSecondaryEmails.find(
@@ -819,7 +819,7 @@ export const EventAdvancedTab = ({
                   data-testid="event-interface-language"
                   className="capitalize"
                   options={interfaceLanguageOptions}
-                  onChange={(option) => {
+                  onChange={(option: any | null) => {
                     onChange(option?.value);
                   }}
                   value={interfaceLanguageOptions.find((option) => option.value === value) || undefined}
@@ -1330,7 +1330,7 @@ export const EventAdvancedTab = ({
                     placeholder={t("select_verified_email")}
                     data-testid="custom-reply-to-email-input"
                     value={value ? { label: value, value } : undefined}
-                    onChange={(option) => onChange(option?.value || null)}
+                    onChange={(option: any | null) => onChange(option?.value || null)}
                     options={verifiedEmails?.map((email) => ({ label: email, value: email })) || []}
                   />
                 </div>

@@ -279,7 +279,7 @@ export default function BillingCredits() {
                     }}
                     options={monthOptions}
                     value={selectedMonth}
-                    onChange={(option) => option && setSelectedMonth(option)}
+                    onChange={(option: { label: string; value: string; startDate: string; endDate: string } | null) => option && setSelectedMonth(option)}
                   />
                 </div>
               </div>

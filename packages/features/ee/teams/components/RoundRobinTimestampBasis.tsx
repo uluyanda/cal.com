@@ -36,7 +36,7 @@ const RoundRobinTimestampBasis = () => {
               <Select
                 options={timestampBasisOptions}
                 value={timestampBasisOptions.find((opt) => opt.value === value)}
-                onChange={(val) => {
+                onChange={(val: any | null) => {
                   onChange(val?.value);
                 }}
               />

@@ -60,8 +60,8 @@ export const CreateOrEditOutOfOfficeEntryModal = ({
     { limit: 10, searchText: debouncedSearchMember, adminOrOwnedTeamsOnly: true },
     {
       enabled: oooType === OutOfOfficeTab.TEAM,
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    }
+      getNextPageParam: (lastPage: any) => lastPage.nextCursor,
+    } as any
   );
   const oooMemberListOptions: {
     value: number;
@@ -99,8 +99,8 @@ export const CreateOrEditOutOfOfficeEntryModal = ({
     },
     {
       enabled: true,
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    }
+      getNextPageParam: (lastPage: any) => lastPage.nextCursor,
+    } as any
   );
   const redirectToMemberListOptions: {
     value: number;
@@ -324,7 +324,7 @@ export const CreateOrEditOutOfOfficeEntryModal = ({
                       value={reasonList.find((reason) => reason.value === value)}
                       placeholder={t("ooo_select_reason")}
                       options={reasonList}
-                      onChange={(selectedOption) => {
+                      onChange={(selectedOption: any) => {
                         if (selectedOption?.value) {
                           onChange(selectedOption.value);
                         }

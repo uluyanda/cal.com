@@ -112,7 +112,7 @@ export const PriorityDialog = (
             className={customClassNames?.select}
             innerClassNames={customClassNames?.innerClassNames}
             value={newPriority}
-            onChange={(value) => setNewPriority(value ?? priorityOptions[2])}
+            onChange={(value: any | null) => setNewPriority(value ?? priorityOptions[2])}
             options={priorityOptions}
           />
         </div>

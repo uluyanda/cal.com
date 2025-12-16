@@ -101,7 +101,7 @@ export class RetellAIPhoneServiceProvider
     agentId: string,
     data: AIPhoneServiceUpdateAgentParams<AIPhoneServiceProviderType.RETELL_AI>
   ): Promise<AIPhoneServiceAgent<AIPhoneServiceProviderType.RETELL_AI>> {
-    const agent = await this.service.updateAgent(agentId, data);
+    const agent = await this.service.updateAgent(agentId, data as any);
     return agent;
   }
 

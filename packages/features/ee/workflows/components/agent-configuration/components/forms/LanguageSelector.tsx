@@ -25,7 +25,7 @@ export function LanguageSelector({ control, name, disabled = false }: LanguageSe
         render={({ field }) => (
           <Select
             value={LANGUAGE_OPTIONS.find((option) => option.value === field.value)}
-            onChange={(option) => field.onChange(option?.value)}
+            onChange={(option: any | null) => field.onChange(option?.value)}
             options={LANGUAGE_OPTIONS}
             isDisabled={disabled}
             className="mb-4"

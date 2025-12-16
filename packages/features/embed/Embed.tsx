@@ -424,7 +424,7 @@ const EmailEmbed = ({
               <Select<{ label: string; value: number }>
                 value={durationsOptions.find((option) => option.value === selectedDuration)}
                 options={durationsOptions}
-                onChange={(option) => {
+                onChange={(option: any | null) => {
                   setSelectedDuration(option?.value);
                   setSelectedDatesAndTimes({});
                 }}
@@ -1057,7 +1057,7 @@ const EmbedTypeCodeAndPreviewDialogContent = ({
                       )}>
                       <div className="mb-2">Position of button</div>
                       <Select
-                        onChange={(position) => {
+                        onChange={(position: any | null) => {
                           setPreviewState((previewState) => {
                             return {
                               ...previewState,
@@ -1138,7 +1138,7 @@ const EmbedTypeCodeAndPreviewDialogContent = ({
                               Control: ThemeSelectControl,
                               IndicatorSeparator: () => null,
                             }}
-                            onChange={(option) => {
+                            onChange={(option: any) => {
                               if (!option) {
                                 return;
                               }
@@ -1221,7 +1221,7 @@ const EmbedTypeCodeAndPreviewDialogContent = ({
                         <Select
                           className="w-full"
                           defaultValue={layoutOptions[0]}
-                          onChange={(option) => {
+                          onChange={(option: any) => {
                             if (!option) {
                               return;
                             }

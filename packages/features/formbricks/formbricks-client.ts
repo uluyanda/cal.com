@@ -22,9 +22,10 @@ export const initFormbricks = ({
     formbricks.init({
       environmentId: process.env.NEXT_PUBLIC_FORMBRICKS_ENVIRONMENT_ID,
       apiHost: process.env.NEXT_PUBLIC_FORMBRICKS_HOST_URL,
-      debug: process.env.NODE_ENV === "development",
       userId,
-      attributes: filteredAttributes,
+      attributes: Object.fromEntries(
+        Object.entries(filteredAttributes).map(([key, value]) => [key, String(value)])
+      ) as Record<string, string>,
     });
   }
 };

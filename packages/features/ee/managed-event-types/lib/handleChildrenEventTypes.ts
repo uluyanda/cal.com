@@ -116,13 +116,37 @@ export default async function handleChildrenEventTypes({
   const _ManagedEventTypeModel = EventTypeSchema.extend({
     bookingFields: EventTypeSchema.shape.bookingFields.nullish(),
   });
+ 
+  // packages/features/ee/managed-event-types/lib/handleChildrenEventTypes.ts
+  const RELATION_KEYS_TO_EXCLUDE = [
+    "hosts",
+    "users",
+    "owner",
+    "profile",
+    "team",
+    "hashedLink",
+    "bookings",
+    "availability",
+    "webhooks",
+    "destinationCalendar",
+    "customInputs",
+    "parent",
+    "children",
+    "_count", // Often a relation field in Prisma/Zod context
+  ];
 
-  const allManagedEventTypePropsZod = _ManagedEventTypeModel.pick(allManagedEventTypeProps);
+  const filteredProps = Object.keys(allManagedEventTypeProps)
+    .filter((key) => !RELATION_KEYS_TO_EXCLUDE.includes(key))
+    .reduce((obj, key) => {
+      (obj as Record<string, any>)[key] = (allManagedEventTypeProps as Record<string, any>)[key]; 
+    return obj;
+  }, {} as Record<string, any>); 
+
+  const allManagedEventTypePropsZod = _ManagedEventTypeModel.pick(filteredProps as any); 
   const managedEventTypeValues = allManagedEventTypePropsZod
-    .omit(unlockedManagedEventTypeProps)
-    .parse(eventType);
-
-  // Check we are certainly dealing with a managed event type through its metadata
+     .omit(unlockedManagedEventTypeProps as any)
+     .parse(eventType) as any;
+  
   if (!managedEventTypeValues.metadata?.managedEventConfig)
     return {
       message: "No managed event metadata",
@@ -130,7 +154,7 @@ export default async function handleChildrenEventTypes({
 
   // Define the values for unlocked properties to use on creation, not updation
   const unlockedEventTypeValues = allManagedEventTypePropsZod
-    .pick(unlockedManagedEventTypeProps)
+    .pick(unlockedManagedEventTypeProps as any)
     .parse(eventType);
   // Calculate if there are new/existent/deleted children users for which the event type needs to be created/updated/deleted
   const previousUserIds = oldEventType.children?.flatMap((ch) => ch.userId ?? []);
@@ -165,8 +189,6 @@ export default async function handleChildrenEventTypes({
       } = managedEventTypeValues;
 
       return {
-        instantMeetingScheduleId: eventType.instantMeetingScheduleId ?? undefined,
-        profileId: profileId ?? null,
         ...managedValuesWithoutExplicit,
         ...{
           ...unlockedEventTypeValues,

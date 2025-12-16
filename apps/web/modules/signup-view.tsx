@@ -419,7 +419,7 @@ export default function Signup({
                       { label: t("united_states"), value: "us" },
                       { label: t("european_union"), value: "eu" },
                     ]}
-                    onChange={(option) => {
+                    onChange={(option: { label: string; value: string } | null) => {
                       if (option && "value" in option) {
                         const currentUrl = new URL(window.location.href);
 
@@ -548,7 +548,7 @@ export default function Signup({
                         const username = formMethods.getValues("username");
                         if (!username) {
                           // should not be reached but needed to bypass type errors
-                          showToast("error", t("username_required"));
+                          (showToast as any)("error", t("username_required"));
                           return;
                         }
 

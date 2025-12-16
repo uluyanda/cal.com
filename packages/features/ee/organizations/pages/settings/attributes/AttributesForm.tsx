@@ -218,7 +218,7 @@ const GroupOption = ({
             placeholder={t("choose_an_option")}
             options={nonGroupOptionsSelectFieldOptions}
             value={nonGroupOptionsSelectFieldSelectedValue}
-            onChange={(chosenNonGroupOptions) => {
+            onChange={(chosenNonGroupOptions: any[]) => {
               const newContains = chosenNonGroupOptions.map((opt) => opt.value);
               form.setValue(`options.${index}.contains`, newContains);
             }}
@@ -413,7 +413,7 @@ export function AttributeForm({ initialValues, onSubmit, header }: AttributeForm
           <SelectField
             label="Type"
             options={AttributeTypeOptions}
-            onChange={(option) => {
+            onChange={(option: any) => {
               if (!option) return;
               onChange(option.value);
             }}

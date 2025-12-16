@@ -376,7 +376,7 @@ const TimeRangeField = ({
         value={value.start}
         menuPlacement="bottom"
         innerClassNames={innerClassNames}
-        onChange={(option) => {
+        onChange={(option: any) => {
           const newStart = new Date(option?.value as number);
           if (newStart >= new Date(value.end)) {
             const newEnd = new Date(option?.value as number);
@@ -396,7 +396,7 @@ const TimeRangeField = ({
         min={value.start}
         innerClassNames={innerClassNames}
         menuPlacement="bottom"
-        onChange={(option) => {
+        onChange={(option: any) => {
           onChange({ ...value, end: new Date(option?.value as number) });
         }}
       />

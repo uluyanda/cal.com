@@ -86,7 +86,7 @@ const ManagedUsersView = () => {
         options={oAuthClientOptions}
         value={oAuthClient}
         isSearchable={false}
-        onChange={(client) => client && setOAuthClient(client)}
+        onChange={(client: { label: string; value: string } | null) => client && setOAuthClient(client)}
       />
       {oAuthClient && <PlatformManagedUsersTable oAuthClientId={oAuthClient.value} />}
     </Shell>

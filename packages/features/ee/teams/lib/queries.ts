@@ -422,7 +422,7 @@ export function generateNewChildEventTypeDataForDB({
   includeWorkflow?: boolean;
   includeUserConnect?: boolean;
 }) {
-  const allManagedEventTypePropsZod = EventTypeSchema.pick(allManagedEventTypeProps).extend({
+  const allManagedEventTypePropsZod = EventTypeSchema.pick(allManagedEventTypeProps as any).extend({
     bookingFields: EventTypeSchema.shape.bookingFields.nullish(),
     locations: z
       .preprocess((val: unknown) => (val === null ? undefined : val), eventTypeLocations)
@@ -430,13 +430,13 @@ export function generateNewChildEventTypeDataForDB({
   });
 
   const managedEventTypeValues = allManagedEventTypePropsZod
-    .omit(unlockedManagedEventTypeProps)
-    .parse(eventType);
+    .omit(unlockedManagedEventTypeProps as any)
+    .parse(eventType) as any;
 
   // Define the values for unlocked properties to use on creation, not updation
   const unlockedEventTypeValues = allManagedEventTypePropsZod
-    .pick(unlockedManagedEventTypeProps)
-    .parse(eventType);
+    .pick(unlockedManagedEventTypeProps as any)
+    .parse(eventType) as any;
 
   // Calculate if there are new workflows for which assigned members will get too
   const currentWorkflowIds = Array.isArray(eventType.workflows)

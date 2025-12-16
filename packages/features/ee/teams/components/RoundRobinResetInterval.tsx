@@ -38,7 +38,7 @@ const RoundRobinResetInterval = () => {
                 <Select
                   options={intervalOptions}
                   value={intervalOptions.find((opt) => opt.value === value)}
-                  onChange={(val) => {
+                  onChange={(val: any | null) => {
                     onChange(val?.value);
                   }}
                 />

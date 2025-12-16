@@ -224,7 +224,7 @@ export function SaveFilterSegmentButton() {
                         value: team.id.toString(),
                         label: team.name,
                       }))}
-                      onChange={(option) => setSelectedTeamId(parseInt(option?.value || "0"))}
+                      onChange={(option: any) => setSelectedTeamId(parseInt(option?.value || "0"))}
                       placeholder={t("select_team")}
                       data-testid="save-filter-segment-team-select"
                       required

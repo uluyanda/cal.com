@@ -372,7 +372,7 @@ const MinimumBookingNoticeInput = React.forwardRef<
         defaultValue={durationTypeOptions.find(
           (option) => option.value === minimumBookingNoticeDisplayValues.type
         )}
-        onChange={(input) => {
+        onChange={(input: any | null) => {
           if (input) {
             setMinimumBookingNoticeDisplayValues({
               ...minimumBookingNoticeDisplayValues,
@@ -451,7 +451,7 @@ export const EventLimitsTab = ({ eventType, customClassNames }: EventLimitsTabPr
                 return (
                   <Select
                     isSearchable={false}
-                    onChange={(val) => {
+                    onChange={(val: any | null) => {
                       if (val) onChange(val.value);
                     }}
                     isDisabled={shouldLockDisableProps("beforeBufferTime").disabled}
@@ -497,7 +497,7 @@ export const EventLimitsTab = ({ eventType, customClassNames }: EventLimitsTabPr
                 return (
                   <Select
                     isSearchable={false}
-                    onChange={(val) => {
+                    onChange={(val: any | null) => {
                       if (val) onChange(val.value);
                     }}
                     isDisabled={shouldLockDisableProps("afterBufferTime").disabled}
@@ -563,7 +563,7 @@ export const EventLimitsTab = ({ eventType, customClassNames }: EventLimitsTabPr
                   <Select
                     isSearchable={false}
                     isDisabled={shouldLockDisableProps("slotInterval").disabled}
-                    onChange={(val) => {
+                    onChange={(val: any | null) => {
                       formMethods.setValue("slotInterval", val && (val.value || 0) > 0 ? val.value : null, {
                         shouldDirty: true,
                       });

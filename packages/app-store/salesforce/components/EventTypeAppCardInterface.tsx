@@ -117,10 +117,10 @@ const EventTypeAppCard: EventTypeAppCardComponent = function EventTypeAppCard({ 
               className="w-[200px]"
               options={recordOptions}
               value={createEventOnSelectedOption}
-              onChange={(e) => {
+              onChange={(e: { value: string; label: string } | null) => {
                 if (e) {
-                  setCreateEventOnSelectedOption(e);
-                  setAppData("createEventOn", e.value);
+                  setCreateEventOnSelectedOption(e as { label: string; value: SalesforceRecordEnum });
+                  setAppData("createEventOn", e.value as SalesforceRecordEnum);
                 }
               }}
             />
@@ -388,10 +388,10 @@ const EventTypeAppCard: EventTypeAppCardComponent = function EventTypeAppCard({ 
                       className="w-60"
                       options={checkOwnerOptions}
                       value={checkOwnerSelectedOption}
-                      onChange={(e) => {
+                      onChange={(e: { value: string; label: string } | null) => {
                         if (e) {
-                          setCheckOwnerSelectedOption(e);
-                          setAppData("roundRobinSkipCheckRecordOn", e.value);
+                          setCheckOwnerSelectedOption(e as { label: string; value: SalesforceRecordEnum });
+                          setAppData("roundRobinSkipCheckRecordOn", e.value as SalesforceRecordEnum);
                         }
                       }}
                     />

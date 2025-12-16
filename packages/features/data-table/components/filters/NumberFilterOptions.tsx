@@ -57,7 +57,7 @@ export function NumberFilterOptions({ column }: NumberFilterOptionsProps) {
                   options={numberFilterOperatorOptions}
                   value={value}
                   isSearchable={false}
-                  onChange={(event) => {
+                  onChange={(event: any) => {
                     if (event) {
                       form.setValue("operatorOption", { ...event }, { shouldDirty: true });
                     }

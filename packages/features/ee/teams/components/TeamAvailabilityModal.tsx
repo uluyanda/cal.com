@@ -84,7 +84,7 @@ export default function TeamAvailabilityModal(props: Props) {
                 classNamePrefix="react-select"
                 className="w-64"
                 value={{ value: frequency, label: `${frequency} minutes` }}
-                onChange={(newFrequency) => setFrequency(newFrequency?.value ?? 30)}
+                onChange={(newFrequency: any | null) => setFrequency(newFrequency?.value ?? 30)}
               />
             </div>
           </div>

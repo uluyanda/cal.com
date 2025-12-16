@@ -18,6 +18,14 @@ import { Switch } from "@calcom/ui/components/form";
 import { showToast } from "@calcom/ui/components/toast";
 import { Tooltip } from "@calcom/ui/components/tooltip";
 import { revalidateApiKeysList } from "@calcom/web/app/(use-page-wrapper)/settings/(settings-layout)/developer/api-keys/actions";
+// packages/features/ee/api-keys/components/ApiKeyDialogForm.tsx
+
+// Add this type definition:
+type ApiKeyFormValues = {
+  note: string;
+  neverExpires: boolean;
+  expiresAt: Date;
+};
 
 export default function ApiKeyDialogForm({
   defaultValues,
@@ -52,7 +60,7 @@ export default function ApiKeyDialogForm({
     neverExpires: false,
   });
 
-  const form = useForm({
+  const form = useForm<ApiKeyFormValues>({
     defaultValues: {
       note: defaultValues?.note || "",
       neverExpires: defaultValues?.neverExpires || false,
@@ -60,16 +68,28 @@ export default function ApiKeyDialogForm({
     },
     mode: "onChange",
     criteriaMode: "all",
+    // packages/features/ee/api-keys/components/ApiKeyDialogForm.tsx
+
     resolver: (values) => {
-      const errors: { note?: { type: string; message: string } } = {};
-      if (values.note && values.note.length > API_NAME_LENGTH_MAX_LIMIT) {
-        errors.note = {
-          type: "maxLength",
-          message: t("api_key_name_too_long", { max: API_NAME_LENGTH_MAX_LIMIT }),
+       const errors: { note?: { type: string; message: string } } = {};
+       if (values.note && values.note.length > API_NAME_LENGTH_MAX_LIMIT) {
+           errors.note = {
+               type: "maxLength",
+               message: `Maximum length is ${API_NAME_LENGTH_MAX_LIMIT} characters.`,
+           };
+       } 
+      if (Object.keys(errors).length > 0) {
+        return {
+            values: {},  // MUST be empty object ({})
+            errors: errors,
         };
-      }
-      return { values, errors };
-    },
+       } else {
+          return {
+              values: values, // MUST return the values object
+              errors: {},     // MUST return an empty errors object ({})
+          };
+        }  
+     },
   });
   const watchNeverExpires = form.watch("neverExpires");
 
@@ -137,7 +157,7 @@ export default function ApiKeyDialogForm({
           </DialogFooter>
         </>
       ) : (
-        <Form
+        <Form<ApiKeyFormValues>
           form={form}
           handleSubmit={async (event) => {
             if (defaultValues) {
@@ -217,11 +237,11 @@ export default function ApiKeyDialogForm({
                   return (
                     <SelectField
                       styles={{
-                        singleValue: (baseStyles) => ({
+                        singleValue: (baseStyles: any) => ({
                           ...baseStyles,
                           fontSize: "14px",
                         }),
-                        option: (baseStyles) => ({
+                        option: (baseStyles: any) => ({
                           ...baseStyles,
                           fontSize: "14px",
                         }),
@@ -229,7 +249,7 @@ export default function ApiKeyDialogForm({
                       isDisabled={watchNeverExpires || !!defaultValues}
                       containerClassName="data-testid-field-type"
                       options={expiresAtOptions}
-                      onChange={(option) => {
+                      onChange={(option: any) => {
                         if (!option) {
                           return;
                         }

@@ -5,7 +5,7 @@ import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Icon } from "@calcom/ui/components/icon";
 import { SkeletonText } from "@calcom/ui/components/skeleton";
 
-import { Slider } from "./Slider";
+import { Slider, Options } from "./Slider";
 
 export function AppStoreCategories({
   categories,
@@ -23,13 +23,22 @@ export function AppStoreCategories({
         items={categories}
         itemKey={(category) => category.name}
         options={{
+          type: "slider",
+          startAt: 0,
+          focusAt: 0,
+          gap: 16,
+          autoplay: false,
+          hoverpause: false,
+          keyboard: true,
+          bound: true,
           perView: 5,
           breakpoints: {
             768 /* and below */: {
-              perView: 2,
+              perView: 3,
             },
           },
-        }}
+        } as const as unknown as Options
+       }
         renderItem={(category) => (
           <Link
             key={category.name}

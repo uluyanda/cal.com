@@ -221,7 +221,7 @@ export const EventSetupTab = (
                   }
                   options={multipleDurationOptions}
                   value={selectedMultipleDuration}
-                  onChange={(options) => {
+                  onChange={(options: any[]) => {
                     let newOptions = [...options];
                     newOptions = newOptions.sort((a, b) => {
                       return a?.value - b?.value;
@@ -273,7 +273,7 @@ export const EventSetupTab = (
                   isDisabled={lengthLockedProps.disabled}
                   noOptionsMessage={() => t("default_duration_no_options")}
                   options={selectedMultipleDuration}
-                  onChange={(option) => {
+                  onChange={(option: any | null) => {
                     setDefaultDuration(
                       selectedMultipleDuration.find((opt) => opt.value === option?.value) ?? null
                     );

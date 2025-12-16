@@ -414,16 +414,16 @@ const WebhookForm = (props: {
                   options={translatedTriggerOptions}
                   isMulti
                   styles={{
-                    indicatorsContainer: (base) => ({
+                    indicatorsContainer: (base: any) => ({
                       ...base,
                       alignItems: "flex-start",
                     }),
                   }}
                   value={selectValue}
-                  onChange={(event) => {
-                    onChange(event.map((selection) => selection.value));
+                  onChange={(event: any) => {
+                    onChange(event.map((selection: any) => selection.value));
                     const noShowWebhookTriggerExists = !!event.find(
-                      (trigger) =>
+                      (trigger: any) =>
                         trigger.value === WebhookTriggerEvents.AFTER_HOSTS_CAL_VIDEO_NO_SHOW ||
                         trigger.value === WebhookTriggerEvents.AFTER_GUESTS_CAL_VIDEO_NO_SHOW
                     );

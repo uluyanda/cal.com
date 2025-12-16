@@ -91,7 +91,7 @@ const AddNewTeamsFormChild = ({ teams }: { teams: { id: number; name: string; sl
     resolver: async (data) => {
       try {
         const validatedData = await schema.parseAsync(data);
-        return { values: validatedData, errors: {} };
+        return { values: validatedData, errors: {} } as any;
       } catch (error) {
         if (error instanceof z.ZodError) {
           return {

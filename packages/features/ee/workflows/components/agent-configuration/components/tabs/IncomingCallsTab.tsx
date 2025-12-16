@@ -155,7 +155,7 @@ export function IncomingCallsTab({
           className="text-sm font-medium"
           isDisabled={readOnly || updateInboundAgentEventTypeMutation.isPending}
           isLoading={updateInboundAgentEventTypeMutation.isPending}
-          onChange={(val) => {
+          onChange={(val: any | null) => {
             if (val && inboundAgentId) {
               updateInboundAgentEventTypeMutation.mutate({
                 agentId: inboundAgentId,

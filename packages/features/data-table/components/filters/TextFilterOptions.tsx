@@ -57,7 +57,7 @@ export function TextFilterOptions({ column }: TextFilterOptionsProps) {
                   options={textFilterOperatorOptions}
                   value={value}
                   isSearchable={false}
-                  onChange={(event) => {
+                  onChange={(event: any) => {
                     if (event) {
                       form.setValue("operatorOption", { ...event }, { shouldDirty: true });
                     }

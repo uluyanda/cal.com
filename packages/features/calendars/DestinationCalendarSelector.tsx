@@ -2,13 +2,29 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import type { OptionProps, SingleValueProps } from "react-select";
 import { components } from "react-select";
-
+import type { SingleValue } from "react-select";
+//import type { DestinationCalendarOptions } from "./types"; // Or wherever it is defined
 import type { SelectClassNames } from "@calcom/features/eventtypes/lib/types";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import type { RouterOutputs } from "@calcom/trpc/react";
 import { Badge } from "@calcom/ui/components/badge";
 import { Select } from "@calcom/ui/components/form";
 import { Icon } from "@calcom/ui/components/icon";
+
+// packages/features/calendars/DestinationCalendarSelector.tsx
+import type { CSSObject } from '@emotion/react';
+
+// packages/features/calendars/DestinationCalendarSelector.tsx
+// Add this definition:
+interface DestinationCalendarOptions {
+  id: string;
+  name: string;
+  value: string;
+  label: string;
+  externalId: string | null;
+  // Add other properties that are used if the build fails again.
+  subtitle: string;
+}
 
 interface Props {
   onChange: (value: { externalId: string; integration: string }) => void;
@@ -148,9 +164,9 @@ const DestinationCalendarSelector = ({
         }
         options={options}
         styles={{
-          placeholder: (styles) => ({ ...styles, ...content(hidePlaceholder) }),
-          singleValue: (styles) => ({ ...styles, ...content(hidePlaceholder) }),
-          control: (defaultStyles) => {
+          placeholder: (styles: CSSObject) => ({ ...styles, ...content(hidePlaceholder) }),
+          singleValue: (styles: CSSObject) => ({ ...styles, ...content(hidePlaceholder) }),
+          control: (defaultStyles: CSSObject) => {
             return {
               ...defaultStyles,
               "@media only screen and (min-width: 640px)": {
@@ -166,7 +182,7 @@ const DestinationCalendarSelector = ({
           customClassNames?.select
         )}
         innerClassNames={customClassNames?.innerClassNames}
-        onChange={(newValue) => {
+        onChange={(newValue: SingleValue<DestinationCalendarOptions>) => {
           setSelectedOption(newValue);
           if (!newValue) {
             return;

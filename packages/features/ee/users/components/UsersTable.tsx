@@ -75,10 +75,10 @@ function UsersTableBare() {
       searchTerm: debouncedSearchTerm,
     },
     {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      getNextPageParam: (lastPage: any) => lastPage.nextCursor,
       placeholderData: keepPreviousData,
       refetchOnWindowFocus: false,
-    }
+    } as any
   );
 
   const sendPasswordResetEmail = trpc.viewer.admin.sendPasswordReset.useMutation({

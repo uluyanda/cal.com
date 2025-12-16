@@ -192,13 +192,13 @@ const WriteToObjectSettings = ({
                         className="w-full"
                         options={fieldTypeOptions}
                         value={fieldTypeOptions.find((option) => option.value === editData?.fieldType)}
-                        onChange={(e) => {
+                        onChange={(e: { value: string; label: string } | null) => {
                           if (e) {
                             setEditingData((prev) => ({
                               ...prev,
                               [key]: {
                                 ...editData,
-                                fieldType: e.value,
+                                fieldType: e.value as SalesforceFieldType,
                                 ...(e.value === SalesforceFieldType.DATE && {
                                   value: dateFieldValueOptions[0].value,
                                 }),
@@ -229,7 +229,7 @@ const WriteToObjectSettings = ({
                           className="w-full"
                           options={dateFieldValueOptions}
                           value={dateFieldValueOptions.find((option) => option.value === editData.value)}
-                          onChange={(e) => {
+                          onChange={(e: { value: string; label: string } | null) => {
                             if (e) {
                               setEditingData((prev) => ({
                                 ...prev,
@@ -244,7 +244,7 @@ const WriteToObjectSettings = ({
                           className="w-full"
                           options={checkboxFieldValueOptions}
                           value={checkboxFieldValueOptions.find((option) => option.value === editData.value)}
-                          onChange={(e) => {
+                          onChange={(e: { value: string; label: string } | null) => {
                             if (e) {
                               setEditingData((prev) => ({
                                 ...prev,
@@ -302,11 +302,11 @@ const WriteToObjectSettings = ({
                         value={whenToWriteToRecordOptions.find(
                           (option) => option.value === editData?.whenToWrite
                         )}
-                        onChange={(e) => {
+                        onChange={(e: { value: string; label: string } | null) => {
                           if (e) {
                             setEditingData((prev) => ({
                               ...prev,
-                              [key]: { ...editData, whenToWrite: e.value },
+                              [key]: { ...editData, whenToWrite: e.value as WhenToWriteToRecord },
                             }));
                           }
                         }}
@@ -386,12 +386,12 @@ const WriteToObjectSettings = ({
                   className="w-full"
                   options={fieldTypeOptions}
                   value={fieldTypeSelectedOption}
-                  onChange={(e) => {
+                  onChange={(e: { value: string; label: string } | null) => {
                     if (e) {
-                      setFieldTypeSelectedOption(e);
+                      setFieldTypeSelectedOption(e as { label: string; value: SalesforceFieldType });
                       setNewOnWriteToRecordEntry({
                         ...newOnWriteToRecordEntry,
-                        fieldType: e.value,
+                        fieldType: e.value as SalesforceFieldType,
                         ...(e.value === SalesforceFieldType.DATE && { value: dateFieldSelectedOption.value }),
                         ...(e.value === SalesforceFieldType.CHECKBOX && {
                           value: checkboxFieldSelectedOption.value,
@@ -408,9 +408,9 @@ const WriteToObjectSettings = ({
                     className="w-full"
                     options={dateFieldValueOptions}
                     value={dateFieldSelectedOption}
-                    onChange={(e) => {
+                    onChange={(e: { value: string; label: string } | null) => {
                       if (e) {
-                        setDateFieldSelectedOption(e);
+                        setDateFieldSelectedOption(e as { label: string; value: DateFieldTypeData });
                         setNewOnWriteToRecordEntry({
                           ...newOnWriteToRecordEntry,
                           value: e.value,
@@ -424,9 +424,9 @@ const WriteToObjectSettings = ({
                     className="w-full"
                     options={checkboxFieldValueOptions}
                     value={checkboxFieldSelectedOption}
-                    onChange={(e) => {
+                    onChange={(e: { value: string; label: string } | null) => {
                       if (e) {
-                        setCheckboxFieldSelectedOption(e);
+                        setCheckboxFieldSelectedOption({ label: e.label, value: e.value === 'true' });
                         setNewOnWriteToRecordEntry({
                           ...newOnWriteToRecordEntry,
                           value: e.value,
@@ -454,12 +454,12 @@ const WriteToObjectSettings = ({
                   className="w-full"
                   options={whenToWriteToRecordOptions}
                   value={whenToWriteSelectedOption}
-                  onChange={(e) => {
+                  onChange={(e: { value: string; label: string } | null) => {
                     if (e) {
-                      setWhenToWriteSelectedOption(e);
+                      setWhenToWriteSelectedOption(e as { label: string; value: WhenToWriteToRecord });
                       setNewOnWriteToRecordEntry({
                         ...newOnWriteToRecordEntry,
-                        whenToWrite: e.value,
+                        whenToWrite: e.value as WhenToWriteToRecord,
                       });
                     }
                   }}

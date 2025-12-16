@@ -203,12 +203,12 @@ function MemberListContent(props: Props) {
       },
       {
         enabled: !!props.team.id,
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        getNextPageParam: (lastPage: any) => lastPage.nextCursor,
         placeholderData: keepPreviousData,
         refetchOnWindowFocus: true,
         refetchOnMount: true,
         staleTime: 0,
-      }
+      } as any
     );
 
   const columnFilters = useColumnFilters();

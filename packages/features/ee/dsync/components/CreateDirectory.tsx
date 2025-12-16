@@ -88,7 +88,7 @@ const CreateDirectory = ({ orgId }: { orgId: number | null }) => {
                     options={directoryProviders}
                     placeholder={t("choose_directory_provider")}
                     defaultValue={directoryProviders[0]}
-                    onChange={(option) => {
+                    onChange={(option: any) => {
                       if (option) {
                         form.setValue("provider", option.value);
                       }

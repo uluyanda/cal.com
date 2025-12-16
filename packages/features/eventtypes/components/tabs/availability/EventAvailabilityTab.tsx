@@ -567,7 +567,7 @@ const EventTypeSchedule = ({
                 options={filteredOptions}
                 isDisabled={shouldLockDisableProps(formFieldName).disabled}
                 isSearchable={false}
-                onChange={(selected) => {
+                onChange={(selected: any | null) => {
                   if (selected) {
                     onChange(selected.value);
                     if (fieldName === "restrictionSchedule" && selected.value) {
@@ -678,7 +678,7 @@ const TeamMemberSchedule = ({
                   placeholder={t("select")}
                   options={options}
                   isSearchable={false}
-                  onChange={(selected) => {
+                  onChange={(selected: any | null) => {
                     field.onChange(selected?.value || null);
                   }}
                   className={classNames(

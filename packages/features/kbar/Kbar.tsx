@@ -43,8 +43,8 @@ const useEventTypesAction = () => {
     {
       refetchOnWindowFocus: false,
       staleTime: 1 * 60 * 60 * 1000,
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    }
+      getNextPageParam: (lastPage: any) => lastPage.nextCursor,
+    } as any
   );
 
   const eventTypeActions: Action[] =

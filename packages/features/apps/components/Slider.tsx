@@ -1,6 +1,7 @@
 "use client";
 
 import type { Options } from "@glidejs/glide";
+export type { Options };
 import Glide from "@glidejs/glide";
 import "@glidejs/glide/dist/css/glide.core.min.css";
 import "@glidejs/glide/dist/css/glide.theme.min.css";
@@ -17,16 +18,14 @@ const SliderButton: FC<ComponentProps<"button">> = (props) => {
     <button className="hover:bg-subtle text-default rounded p-2.5 transition" {...rest}>
       {children}
     </button>
-  );
-};
-
+  );};
 export const Slider = <T extends string | unknown>({
   title = "",
   className = "",
   items,
   itemKey = (item) => `${item}`,
   renderItem,
-  options = {},
+  options = {} as Options,
 }: {
   title?: string;
   className?: string;
@@ -36,18 +35,18 @@ export const Slider = <T extends string | unknown>({
   options?: Options;
 }) => {
   const glide = useRef(null);
-  const slider = useRef<Glide.Properties | null>(null);
+  const slider = useRef<Glide | null>(null);
   const { isLocaleReady } = useLocale();
   useEffect(() => {
     if (glide.current) {
       slider.current = new Glide(glide.current, {
-        type: "carousel",
         ...options,
       }).mount();
     }
 
-    return () => slider.current?.destroy();
-  }, [options]);
+    return () => {  slider.current?.destroy();
+    }; 
+   }, [options]);
 
   return (
     <div className={`mb-2 ${className}`}>

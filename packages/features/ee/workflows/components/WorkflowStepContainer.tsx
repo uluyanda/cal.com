@@ -530,7 +530,7 @@ export default function WorkflowStepContainer(props: WorkflowStepProps) {
                   className="text-sm font-medium"
                   id="trigger-select"
                   isDisabled={props.readOnly}
-                  onChange={(val) => {
+                  onChange={(val: any | null) => {
                     if (val) {
                       const triggerValue = val.value as WorkflowTriggerEvents;
                       const currentTrigger = form.getValues("trigger") as WorkflowTriggerEvents;
@@ -732,7 +732,7 @@ export default function WorkflowStepContainer(props: WorkflowStepProps) {
                     isSearchable={false}
                     className="text-sm"
                     isDisabled={props.readOnly}
-                    onChange={(val) => {
+                    onChange={(val: any | null) => {
                       if (val) {
                         const oldValue = form.getValues(`steps.${step.stepNumber - 1}.action`);
 
@@ -1239,7 +1239,7 @@ export default function WorkflowStepContainer(props: WorkflowStepProps) {
                       isSearchable={false}
                       className="text-sm"
                       isDisabled={props.readOnly}
-                      onChange={(val) => {
+                      onChange={(val: any | null) => {
                         if (val) {
                           const action = form.getValues(`steps.${step.stepNumber - 1}.action`);
                           const value = val.value as WorkflowTemplates;

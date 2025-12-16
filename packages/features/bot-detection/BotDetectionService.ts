@@ -69,10 +69,10 @@ export class BotDetectionService {
       isBot: verification.isBot,
       isHuman: verification.isHuman,
       isVerifiedBot: verification.isVerifiedBot,
-      verifiedBotName: verification.verifiedBotName,
-      verifiedBotCategory: verification.verifiedBotCategory,
+      verifiedBotName: (verification as { verifiedBotName: string | undefined }).verifiedBotName,
+      verifiedBotCategory: (verification as { verifiedBotCategory: string | undefined }).verifiedBotCategory,
       bypassed: verification.bypassed,
-      classificationReason: verification.classificationReason,
+      classificationReason: (verification as { classificationReason: string | undefined }).classificationReason,
       teamId: eventType.teamId,
       eventTypeId,
     };

@@ -134,7 +134,7 @@ export default function Authorize() {
         <Select
           isSearchable={true}
           id="account-select"
-          onChange={(value) => {
+          onChange={(value: { label: string; value: string } | null) => {
             setSelectedAccount(value);
           }}
           className="w-52"

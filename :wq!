@@ -1,9 +1,9 @@
 "use client";
 
-import type { CommonPropsAndClassName, GroupBase, OptionProps, PlaceholderProps } from "react-select";
 import { useMemo, useState } from "react";
 import type { ITimezoneOption, ITimezone, Props as SelectProps } from "react-timezone-select";
 import BaseSelect from "react-timezone-select";
+import type { CommonPropsAndClassName, GroupBase } from "react-select";
 import type { CSSObject } from "@emotion/react";
 import { CALCOM_VERSION } from "@calcom/lib/constants";
 import { filterBySearchText, addTimezonesToDropdown, handleOptionLabel } from "@calcom/lib/timezone";
@@ -12,7 +12,7 @@ import { trpc } from "@calcom/trpc/react";
 import classNames from "@calcom/ui/classNames";
 import { getReactSelectProps, inputStyles } from "@calcom/ui/components/form";
 
-type SelectState = CommonPropsAndClassName<ITimezoneOption, false, GroupBase<ITimezoneOption>>;
+type SelectState = CommonPropsAndClassName<ITimezoneOption, falsei GroupBase<ITimezoneOption>>;
 
 const SELECT_SEARCH_DATA: Timezones = [
   { label: "San Francisco", timezone: "America/Los_Angeles" },
@@ -158,9 +158,7 @@ export function TimezoneSelectComponent({
             "text-emphasis h-6 md:max-w-[145px] max-w-[250px]",
             timezoneClassNames?.input && timezoneClassNames.input(state)
           ),
-        // packages/features/components/timezone-select/TimezoneSelect.tsx
-
-        option: (state: OptionProps<ITimezoneOption, false, GroupBase<ITimezoneOption>>) =>
+        option: (state: SelectState) =>
           classNames(
             "bg-default py-2.5 px-3 rounded-md text-default ",
             state.isFocused && "bg-subtle",
@@ -168,9 +166,7 @@ export function TimezoneSelectComponent({
             state.isSelected && "bg-emphasis text-default",
             timezoneClassNames?.option && timezoneClassNames.option(state)
           ),
-
-        placeholder: (state: PlaceholderProps<ITimezoneOption, false, GroupBase<ITimezoneOption>>) => 
-        classNames("text-muted", state.isFocused && "hidden"),
+        placeholder: (state: SelectState) => classNames("text-muted", state.isFocused && "hidden"),
         dropdownIndicator: () => "text-default",
         control: (state: SelectState) =>
           classNames(

@@ -89,7 +89,7 @@ export const ReportBookingDialog = (props: IReportBookingDialog) => {
                     <Select
                       {...field}
                       options={reasonOptions}
-                      onChange={(option) => {
+                      onChange={(option: { label: string; value: string } | null) => {
                         if (option) field.onChange(option.value);
                       }}
                       value={reasonOptions.find((opt) => opt.value === field.value)}

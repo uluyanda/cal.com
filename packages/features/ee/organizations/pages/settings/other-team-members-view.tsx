@@ -126,15 +126,17 @@ const MembersView = () => {
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
+    isError: isOtherMembersError,
     error: otherMembersError,
     data,
   } = trpc.viewer.organizations.listOtherTeamMembers.useInfiniteQuery(
     { teamId, limit },
     {
+   //   input: {teamId, limit },
       enabled: !Number.isNaN(teamId),
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      getNextPageParam: (lastPage: any) => lastPage.nextCursor,
       placeholderData: keepPreviousData,
-    }
+    } as any
   );
 
   useEffect(

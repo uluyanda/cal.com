@@ -323,7 +323,7 @@ const WeightedAttributesSelector = ({
                   (attribute) => attribute.id === attributeIdForWeights
                 )?.name,
               }}
-              onChange={(option) => {
+              onChange={(option: { label: string; value: string } | null) => {
                 if (option) {
                   setAttributeIdForWeights(option.value);
                   onChangeAttributeIdForWeights(route, option.value);
@@ -669,7 +669,7 @@ const Route = ({
                     className="data-testid-select-routing-action block w-full grow"
                     required
                     value={RoutingPages.find((page) => page.value === route.action?.type)}
-                    onChange={(item) => {
+                    onChange={(item: { label: string; value: RouteActionType } | null) => {
                       if (!item) {
                         return;
                       }
@@ -727,7 +727,7 @@ const Route = ({
                         className="data-testid-eventTypeRedirectUrl-select"
                         isDisabled={disabled}
                         options={eventTypeRedirectUrlOptions}
-                        onChange={(option) => {
+                       onChange={(option: { label: string; value: string; eventTypeId: number } | null) => {
                           if (!option) {
                             return;
                           }
@@ -804,7 +804,7 @@ const Route = ({
                       className="data-testid-select-routing-action block w-full grow"
                       required
                       value={RoutingPages.find((page) => page.value === route.action?.type)}
-                      onChange={(item) => {
+                      onChange={(item: { label: string; value: RouteActionType } | null) => {
                         if (!item) {
                           return;
                         }
@@ -863,7 +863,7 @@ const Route = ({
                           className="data-testid-eventTypeRedirectUrl-select"
                           isDisabled={disabled}
                           options={eventTypeRedirectUrlOptions}
-                          onChange={(option) => {
+                          onChange={(option: { label: string; value: string; eventTypeId: number } | null) => {
                             if (!option) {
                               return;
                             }

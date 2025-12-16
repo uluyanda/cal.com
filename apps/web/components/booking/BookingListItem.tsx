@@ -581,7 +581,12 @@ const BookingItemBadges = ({
         </Badge>
       )}
       {booking?.assignmentReason.length > 0 && (
-        <AssignmentReasonTooltip assignmentReason={booking.assignmentReason[0]} />
+      <AssignmentReasonTooltip
+        assignmentReason={{
+          ...booking.assignmentReason[0],
+           createdAt: new Date(booking.assignmentReason[0].createdAt),
+         }}
+       />      
       )}
       {booking.report && (
         <Tooltip

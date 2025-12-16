@@ -86,8 +86,8 @@ export const ReassignDialog = ({
     },
     {
       enabled: isManagedEvent,
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    }
+      getNextPageParam: (lastPage: { nextCursor: number | null }) => lastPage.nextCursor,
+    } as any
   );
 
   const roundRobinQuery = trpc.viewer.teams.getRoundRobinHostsToReassign.useInfiniteQuery(
@@ -98,9 +98,9 @@ export const ReassignDialog = ({
       searchTerm: debouncedSearch,
     },
     {
-      enabled: !isManagedEvent,
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    }
+       enabled: !isManagedEvent,
+       getNextPageParam: (lastPage: { nextCursor: number | null }) => lastPage.nextCursor,
+     } as any 
   );
 
   const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = isManagedEvent

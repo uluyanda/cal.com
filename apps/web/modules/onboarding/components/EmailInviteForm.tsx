@@ -81,7 +81,7 @@ export function EmailInviteForm({
                     size="sm"
                     options={teams}
                     value={teams.find((t) => t.value === watch(`invites.${index}.team`))}
-                    onChange={(option) => {
+                    onChange={(option: { label: string; value: string } | null) => {
                       if (option) {
                         setValue(`invites.${index}.team`, option.value);
                       }

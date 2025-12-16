@@ -43,8 +43,8 @@ export function AssignFeatureSheet({ flag, open, onOpenChange }: AssignFeatureSh
       },
       {
         enabled: open,
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
-      }
+        getNextPageParam: (lastPage: any) => lastPage.nextCursor,
+      } as any
     );
 
   const teams = data?.pages.flatMap((page) => page.teams) ?? [];

@@ -41,7 +41,7 @@ export function OutgoingCallsTab({
                 isSearchable={false}
                 innerClassNames={{ valueContainer: "font-medium" }}
                 value={eventTypeOptions.find((option) => option.value === field.value?.toString())}
-                onChange={(option) => field.onChange(option?.value ? parseInt(option.value) : undefined)}
+                onChange={(option: any | null) => field.onChange(option?.value ? parseInt(option.value) : undefined)}
                 options={eventTypeOptions}
                 isDisabled={readOnly}
                 placeholder={t("select_event_type")}

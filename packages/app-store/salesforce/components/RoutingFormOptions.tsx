@@ -125,10 +125,10 @@ const RoutingFormOptions = ({
           <Select
             options={salesforceRoutingOptions}
             value={selectedRoutingOption}
-            onChange={(e) => {
+            onChange={(e: { value: string; label: string } | null) => {
               if (e) {
-                onOptionChange(e.value);
-                setSelectedRoutingOption(e);
+                onOptionChange(e.value as SalesforceRoutingConfig);
+                setSelectedRoutingOption(e as { label: string; value: SalesforceRoutingConfig });
               }
             }}
             className="ml-2 w-full"

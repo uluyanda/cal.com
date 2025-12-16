@@ -161,7 +161,7 @@ export default function InstantEventController({
                                   options={options}
                                   isDisabled={shouldLockDisableProps("instantMeetingSchedule").disabled}
                                   isSearchable={false}
-                                  onChange={(selected) => {
+                                  onChange={(selected: any | null) => {
                                     if (selected) onChange(selected.value);
                                   }}
                                   className="mb-4 block w-full min-w-0 flex-1 rounded-sm text-sm"

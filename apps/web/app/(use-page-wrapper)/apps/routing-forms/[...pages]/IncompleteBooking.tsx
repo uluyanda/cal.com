@@ -131,7 +131,7 @@ function Page({ form }: { form: RoutingFormWithResponseCount }) {
                       size="sm"
                       options={credentialOptions}
                       value={selectedCredential}
-                      onChange={(option) => {
+                      onChange={(option: { label: string | null | undefined; value: number} | null) => {
                         if (!option) {
                           return;
                         }
@@ -211,7 +211,7 @@ function Page({ form }: { form: RoutingFormWithResponseCount }) {
                         size="sm"
                         options={fieldTypeOptions}
                         value={selectedFieldType}
-                        onChange={(e) => {
+                        onChange={(e: { label: string; value: SalesforceFieldType } | null) => {
                           if (e) {
                             setSelectedFieldType(e);
                             setNewSalesforceAction({
@@ -239,7 +239,7 @@ function Page({ form }: { form: RoutingFormWithResponseCount }) {
                         size="sm"
                         options={whenToWriteToRecordOptions}
                         value={selectedWhenToWrite}
-                        onChange={(e) => {
+                        onChange={(e: { label: string; value: WhenToWriteToRecord } | null) => {
                           if (e) {
                             setSelectedWhenToWrite(e);
                             setNewSalesforceAction({

@@ -89,8 +89,8 @@ export const TeamMemberSelect = ({
           isMulti
           options={options}
           value={selectedOptions}
-          onChange={(newValue) => {
-            const selectedIds = (newValue as TeamMemberOption[]).map((option) => parseInt(option.value, 10));
+          onChange={(newValue: TeamMemberOption[] | null) => {
+            const selectedIds = newValue ? newValue.map((option) => parseInt(option.value, 10)) : [];
             onChange(selectedIds);
           }}
           className={className}

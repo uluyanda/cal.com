@@ -70,12 +70,12 @@ export const AddNewTeamMembersForm = ({ teamId, isOrg }: { teamId: number; isOrg
       },
       {
         enabled: !!teamId,
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        getNextPageParam: (lastPage: any) => lastPage.nextCursor,
         placeholderData: keepPreviousData,
         refetchOnWindowFocus: true,
         refetchOnMount: true,
         staleTime: 0,
-      }
+      } as any
     );
 
   const flatData = useMemo(() => data?.pages?.flatMap((page) => page.members) ?? [], [data]) as TeamMember[];

@@ -110,8 +110,8 @@ const InfiniteTeamsTab: FC<InfiniteTeamsTabProps> = (props) => {
       refetchOnWindowFocus: true,
       refetchOnMount: true,
       staleTime: 0,
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    }
+      getNextPageParam: (lastPage: { nextCursor: number | null }) => lastPage.nextCursor,
+    } as any
   );
 
   const buttonInView = useInViewObserver(() => {

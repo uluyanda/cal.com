@@ -50,7 +50,7 @@ export const Select = <
       {...reactSelectProps}
       menuPlacement={menuPlacement}
       styles={{
-        control: (base) => ({
+        control: (base: any) => ({
           ...base,
           minHeight: size === "sm" ? "28px" : "32px",
           height: grow ? "auto" : size === "sm" ? "28px" : "32px",
@@ -58,7 +58,7 @@ export const Select = <
       }}
       classNames={{
         input: () => cx("text-emphasis", innerClassNames?.input),
-        option: (state) =>
+        option: (state: any) =>
           cx(
             "bg-default flex cursor-pointer justify-between py-2 px-3 rounded-md text-default items-center",
             state.isFocused && "bg-subtle",
@@ -66,9 +66,9 @@ export const Select = <
             state.isSelected && "bg-emphasis text-default",
             innerClassNames?.option
           ),
-        placeholder: (state) => cx("text-muted", state.isFocused && variant !== "checkbox" && "hidden"),
+        placeholder: (state: any) => cx("text-muted", state.isFocused && variant !== "checkbox" && "hidden"),
         dropdownIndicator: () => cx("text-default", "w-4 h-4", "flex items-center justify-center "),
-        control: (state) =>
+        control: (state: any) =>
           cx(
             inputStyles({ size }),
             state.isMulti
@@ -104,7 +104,7 @@ export const Select = <
             "scroll-bar scrollbar-track-w-20 rounded-md flex flex-col space-y-1",
             innerClassNames?.menuList
           ),
-        indicatorsContainer: (state) =>
+        indicatorsContainer: (state: any) =>
           cx(
             "flex items-start! justify-center mt-1 h-full",
             state.selectProps.menuIsOpen
@@ -201,7 +201,7 @@ export function SelectWithValidation<
       <Select
         value={value}
         {...remainingProps}
-        onChange={(value, ...remainingArgs) => {
+        onChange={(value: any, ...remainingArgs: any[]) => {
           setHiddenInputValue(value);
           if (onChange) {
             onChange(value, ...remainingArgs);

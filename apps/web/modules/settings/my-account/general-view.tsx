@@ -275,7 +275,7 @@ const GeneralView = ({ user, travelSchedules }: GeneralViewProps) => {
                   <Select
                     value={value}
                     options={timeFormatOptions}
-                    onChange={(event) => {
+                    onChange={(event: { label: string; value: number } | null) => {
                       if (event) formMethods.setValue("timeFormat", { ...event }, { shouldDirty: true });
                     }}
                   />
@@ -296,7 +296,7 @@ const GeneralView = ({ user, travelSchedules }: GeneralViewProps) => {
                   <Select
                     value={value}
                     options={weekStartOptions}
-                    onChange={(event) => {
+                    onChange={(event: { label: string; value: string } | null) => {
                       if (event) formMethods.setValue("weekStart", { ...event }, { shouldDirty: true });
                     }}
                   />

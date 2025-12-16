@@ -195,7 +195,7 @@ const GeneralView = ({ currentOrg, permissions, localeProp }: GeneralViewProps) 
               <Select
                 value={value}
                 options={timeFormatOptions}
-                onChange={(event) => {
+                onChange={(event: any | null) => {
                   if (event) formMethods.setValue("timeFormat", { ...event }, { shouldDirty: true });
                 }}
               />
@@ -216,7 +216,7 @@ const GeneralView = ({ currentOrg, permissions, localeProp }: GeneralViewProps) 
               <Select
                 value={value}
                 options={weekStartOptions}
-                onChange={(event) => {
+                onChange={(event: any | null) => {
                   if (event) formMethods.setValue("weekStart", { ...event }, { shouldDirty: true });
                 }}
               />

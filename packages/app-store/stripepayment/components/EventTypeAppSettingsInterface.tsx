@@ -125,7 +125,7 @@ const EventTypeAppSettingsInterface: EventTypeAppSettingsComponent = ({
               value={selectedCurrency}
               className="text-black"
               defaultValue={selectedCurrency}
-              onChange={(e) => {
+              onChange={(e: { value: string; label: string } | null) => {
                 if (e) {
                   setSelectedCurrency(e);
                   setAppData("currency", e.value);
@@ -147,7 +147,7 @@ const EventTypeAppSettingsInterface: EventTypeAppSettingsComponent = ({
               options={paymentOptions.map((option) => {
                 return { ...option, label: t(option.label) || option.label };
               })}
-              onChange={(input) => {
+              onChange={(input: { value: string; label: string } | null) => {
                 if (input) {
                   setAppData("paymentOption", input.value);
                   if (input.value === "HOLD") {
@@ -208,7 +208,7 @@ const EventTypeAppSettingsInterface: EventTypeAppSettingsComponent = ({
                       options={options}
                       isSearchable={false}
                       isDisabled={disabled}
-                      onChange={(option) => setAppData("refundCountCalendarDays", option?.value === 1)}
+                      onChange={(option: { value: number; label: string } | null) => setAppData("refundCountCalendarDays", option?.value === 1)}
                       value={getSelectedOption()}
                       defaultValue={getSelectedOption()}
                     />
@@ -250,7 +250,7 @@ const EventTypeAppSettingsInterface: EventTypeAppSettingsComponent = ({
                       options={autoChangeTimeUnitOptions}
                       isSearchable={false}
                       isDisabled={disabled}
-                      onChange={(option) => setAppData("autoChargeNoShowFeeTimeUnit", option?.value)}
+                      onChange={(option: { value: string; label: string } | null) => setAppData("autoChargeNoShowFeeTimeUnit", option?.value)}
                       value={
                         autoChangeTimeUnitOptions.find((opt) => opt.value === autoChargeNoShowFeeTimeUnit) ||
                         autoChangeTimeUnitOptions[0]

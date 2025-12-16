@@ -162,11 +162,11 @@ function Field({
                     <SelectField
                       maxMenuHeight={200}
                       styles={{
-                        singleValue: (baseStyles) => ({
+			singleValue: (baseStyles: Record<string, unknown>) => ({	                        
                           ...baseStyles,
                           fontSize: "14px",
                         }),
-                        option: (baseStyles) => ({
+                        option: (baseStyles: Record<string, unknown>) => ({
                           ...baseStyles,
                           fontSize: "14px",
                         }),
@@ -174,8 +174,7 @@ function Field({
                       label="Type"
                       isDisabled={!!router}
                       containerClassName="data-testid-field-type"
-                      options={FieldTypes}
-                      onChange={(option) => {
+                      onChange={(option: { value: string } | null) => {
                         if (!option) {
                           return;
                         }
@@ -188,7 +187,7 @@ function Field({
               }}
             />
           </div>
-          {["select", "multiselect"].includes(fieldType) ? (
+          {["select", "multiselect"].includes(fieldType!) ? (
             <div className="bg-cal-muted w-full rounded-[10px] p-2">
               <Label className="text-subtle">{t("options")}</Label>
               <MultiOptionInput

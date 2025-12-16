@@ -223,7 +223,7 @@ export default function RequiresConfirmationController({
                                         innerClassNames={{
                                           control: "rounded-l-none max-h-4 px-3 bg-subtle py-1",
                                         }}
-                                        onChange={(opt) => {
+                                        onChange={(opt: any | null) => {
                                           setRequiresConfirmationSetup({
                                             time:
                                               requiresConfirmationSetup?.time ??

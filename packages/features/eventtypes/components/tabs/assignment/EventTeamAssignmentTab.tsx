@@ -855,7 +855,7 @@ export const EventTeamAssignmentTab = ({
                       customClassNames?.assignmentType?.schedulingTypeSelect?.select
                     )}
                     innerClassNames={customClassNames?.assignmentType?.schedulingTypeSelect?.innerClassNames}
-                    onChange={(val) => handleSchedulingTypeChange(val?.value, onChange)}
+                    onChange={(val: any | null) => handleSchedulingTypeChange(val?.value, onChange)}
                   />
                 )}
               />

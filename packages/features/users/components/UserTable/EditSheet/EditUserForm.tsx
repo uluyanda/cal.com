@@ -229,7 +229,7 @@ export function EditForm({
                 )}
                 value={membershipOptions.find((option) => option.value === form.watch("role"))}
                 options={membershipOptions}
-                onChange={(option) => {
+                onChange={(option: any) => {
                   if (option) {
                     form.setValue("role", option.value);
                   }
@@ -396,7 +396,7 @@ function AttributesList(props: { selectedUserId: number }) {
                         label={attr.name}
                         options={getOptionsByAttributeId(attr.id)}
                         value={attr.type === "MULTI_SELECT" ? fieldValue?.options : fieldValue?.options?.[0]}
-                        onChange={(value) => {
+                        onChange={(value: any) => {
                           if (!value) return;
                           const valueAsArray = value instanceof Array ? value : [value];
 

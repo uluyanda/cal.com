@@ -259,7 +259,7 @@ function DelegationFormFields({
             <SelectField
               required
               label={t("workspace_platform")}
-              onChange={(option) => onChange(option?.value)}
+              onChange={(option: any | null) => onChange(option?.value)}
               value={selectedPlatform}
               options={platformOptions}
             />

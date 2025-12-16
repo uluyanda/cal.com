@@ -85,7 +85,7 @@ function Select<
 
   return (
     <ReactSelect
-      theme={(theme) => ({
+      theme={(theme: any) => ({
         ...theme,
         borderRadius: 6,
         colors: {
@@ -102,7 +102,7 @@ function Select<
         },
       })}
       styles={{
-        option: (provided, state) => ({
+        option: (provided: any, state: any) => ({
           ...provided,
           color: state.isSelected ? "var(--brand-text-color)" : "black",
           ":active": {
@@ -161,7 +161,7 @@ export function SelectWithValidation<
       <Select
         value={value}
         {...remainingProps}
-        onChange={(value, ...remainingArgs) => {
+        onChange={(value: any, ...remainingArgs: any[]) => {
           setHiddenInputValue(value);
           if (onChange) {
             onChange(value, ...remainingArgs);

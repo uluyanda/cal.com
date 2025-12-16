@@ -94,9 +94,9 @@ function AvailabilitySliderTableContent(props: { isOrg: boolean }) {
       searchString: searchTerm,
     },
     {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      getNextPageParam: (lastPage: any) => lastPage.nextCursor,
       placeholderData: keepPreviousData,
-    }
+    } as any
   );
 
   const memorisedColumns = useMemo(() => {
