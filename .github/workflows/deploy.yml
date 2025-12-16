@@ -22,20 +22,26 @@ jobs:
         with:
           node-version: '20'
 
-
       - name: Install Dependencies
         run: |
           corepack enable
-          yarn install
+          # Step 1: Install ONLY. Do not run post-install scripts yet.
+          # This prevents the circular "doesn't seem to have been installed" error.
+          yarn install --no-immutable
         env:
+          YARN_ENABLE_SCRIPTS: false 
           YARN_NODE_LINKER: node-modules
-          YARN_ENABLE_IMMUTABLE_INSTALLS: false
 
       - name: Generate Prisma Client
-        # Now that we have node_modules, Prisma will find its schema easily
+        # Step 2: Now that files are on disk, we run Prisma specifically.
         run: yarn workspace @calcom/prisma prisma generate
         env:
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
+
+      - name: Build Cal.com
+        # Step 3: Run the full build. 
+        # We add a flag to skip the automatic 'install' check that Turbo does.
+        run: yarn build
 
       - name: Build Cal.com
         run: yarn build
