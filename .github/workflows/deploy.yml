@@ -31,34 +31,34 @@ jobs:
           YARN_ENABLE_SCRIPTS: false
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
 
+
       - name: Generate Prisma Client
         run: |
-          # 1. Run generation
+          # 1. Generate into the default location first
           yarn workspace @calcom/prisma prisma generate
           
-          # 2. We must put the client in the ROOT node_modules for the workaround plugin to find it
-          # Based on your previous log, the source is: packages/prisma/generated/prisma
+          # 2. Hard-copy the generated output to the root node_modules where the plugin is failing
+          # The source is based on your previous logs showing './generated/prisma'
           mkdir -p node_modules/.prisma/client
-          cp -R packages/prisma/generated/prisma/* node_modules/.prisma/client/
+          cp -vR packages/prisma/generated/prisma/* node_modules/.prisma/client/
           
-          # 3. Create a secondary link just in case
+          # 3. Ensure the @prisma/client package itself is also updated
           mkdir -p node_modules/@prisma/client
-          cp -R packages/prisma/generated/prisma/* node_modules/@prisma/client/
+          cp -vR packages/prisma/generated/prisma/* node_modules/@prisma/client/
         env:
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
 
       - name: Build Cal.com
         run: yarn build
         env:
-          # These ignore the TS decorator errors you see in the logs
+          # Bypasses the TS decorator errors we saw earlier
           NEXTJS_IGNORE_TYPECHECK: true
           NEXTJS_IGNORE_ESLINT: true
-          # The workaround plugin looks for this variable specifically
-          # We point it to the root node_modules relative to apps/web
+          # THIS IS THE KEY: We tell the workaround plugin exactly where we put the files
+          # relative to the 'apps/web' directory.
           NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"
-          # Standard Prisma envs
           PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
-          TURBO_SKIP_NODE_MODULES_CHECK: true
+          TURBO_SKIP_NODE_MODULES_CHECK: true      
 
       - name: Package Build Artifacts
         run: |
