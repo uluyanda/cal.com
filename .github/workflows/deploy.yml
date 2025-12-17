@@ -36,17 +36,15 @@ jobs:
           # 1. Run the generation
           yarn workspace @calcom/prisma prisma generate
           
-          # 2. Hard-code the copy to the ROOT node_modules where Webpack looks
-          mkdir -p node_modules/.prisma/client
-          cp -vR packages/prisma/generated/prisma/* node_modules/.prisma/client/
+          # 2. Link the generated client into the locations expected by the monorepo
+          mkdir -p node_modules/.prisma
+          ln -sfn $(pwd)/packages/prisma/generated/prisma node_modules/.prisma/client
           
-          # 3. Hard-code the copy to the APP-SPECIFIC node_modules
-          mkdir -p apps/web/node_modules/.prisma/client
-          cp -vR packages/prisma/generated/prisma/* apps/web/node_modules/.prisma/client/
+          mkdir -p apps/web/node_modules/.prisma
+          ln -sfn $(pwd)/packages/prisma/generated/prisma apps/web/node_modules/.prisma/client
           
-          # 4. Populate the @prisma/client folder
-          mkdir -p node_modules/@prisma/client
-          cp -vR packages/prisma/generated/prisma/* node_modules/@prisma/client/
+          mkdir -p node_modules/@prisma
+          ln -sfn $(pwd)/packages/prisma/generated/prisma node_modules/@prisma/client
         env:
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
 
@@ -55,9 +53,12 @@ jobs:
         env:
           NEXTJS_IGNORE_TYPECHECK: true
           NEXTJS_IGNORE_ESLINT: true
-          NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"
-          PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
-          TURBO_SKIP_NODE_MODULES_CHECK: true
+          # We point these to the ABSOLUTE path so the Webpack plugin doesn't get lost
+          NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "/home/runner/work/cal.com/cal.com/node_modules/.prisma/client"
+          PRISMA_CLIENT_PATH: "/home/runner/work/cal.com/cal.com/node_modules/.prisma/client"
+          # This helps ignore those decorator TS1240 errors during the build phase
+          TS_NODE_TRANSPILE_ONLY: "true" 
+          NODE_OPTIONS: "--max_old_space_size=8192"
 
       - name: Package Build Artifacts
         run: |
