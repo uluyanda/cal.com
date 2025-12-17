@@ -31,13 +31,12 @@ jobs:
           YARN_ENABLE_SCRIPTS: false
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
 
-       - name: Generate Prisma Client
+      - name: Generate Prisma Client
         run: |
-          # 1. Generate into the default location
+          # 1. Run the generation
           yarn workspace @calcom/prisma prisma generate
           
           # 2. PHYSICALLY move the generated client to the root node_modules. 
-          # The plugin is crashing because it expects it here:
           mkdir -p node_modules/.prisma/client
           cp -vR packages/prisma/generated/prisma/* node_modules/.prisma/client/
           
@@ -45,8 +44,10 @@ jobs:
           mkdir -p node_modules/@prisma/client
           cp -vR packages/prisma/generated/prisma/* node_modules/@prisma/client/
 
-          # 4. Verify for the logs (helps us debug if it fails again)
+          # 4. Verify for the logs
           ls -R node_modules/.prisma/client | head -n 10
+          # Small sleep to ensure FS is ready
+          sleep 2
         env:
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
 
@@ -55,13 +56,12 @@ jobs:
         env:
           NEXTJS_IGNORE_TYPECHECK: true
           NEXTJS_IGNORE_ESLINT: true
-          # We tell the workaround plugin to look specifically at the root
+          # Point the plugin exactly where we copied the files
           NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"
           PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
 
       - name: Package Build Artifacts
         run: |
-          # We MUST include the generated prisma client in the tarball
           tar -czf calcom-build.tar.gz \
             apps/web/.next/ \
             apps/web/public/ \
@@ -95,8 +95,6 @@ jobs:
             rm calcom-build.tar.gz
             corepack enable
             yarn config set nodeLinker node-modules
-            # Install only production deps on the VPS
             yarn workspaces focus @calcom/web --production
-            # Restart or start the app
             pm2 restart calcom || pm2 start "yarn workspace @calcom/web start" --name calcom
             pm2 save
