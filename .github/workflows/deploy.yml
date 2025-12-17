@@ -59,14 +59,6 @@ jobs:
           PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
           NEXT__MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"
 
-      - name: Build Cal.com
-        # Step 3: Run the full build. 
-        # We add a flag to skip the automati 'install' check that Turbo does.
-        run: yarn build
-
-      - name: Build Cal.com
-        run: yarn build
-
       - name: Package Build Artifacts
         run: |
           tar -czf calcom-build.tar.gz \
