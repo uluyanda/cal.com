@@ -33,39 +33,38 @@ jobs:
 
       - name: Generate Prisma Client
         run: |
-          # 1. Run the generation
+          # 1. Generate the client
           yarn workspace @calcom/prisma prisma generate
           
-          # 2. PHYSICALLY move the generated client to the root node_modules. 
-          mkdir -p node_modules/.prisma/client
-          cp -vR packages/prisma/generated/prisma/* node_modules/.prisma/client/
+          # 2. Define the source path
+          PRISMA_SRC="packages/prisma/generated/prisma"
           
-          # 3. Also place it in the @prisma/client package directory
+          # 3. Force copy into every location the monorepo plugin might check:
+          # Root node_modules
+          mkdir -p node_modules/.prisma/client
+          cp -vR $PRISMA_SRC/* node_modules/.prisma/client/
+          
+          # App-specific node_modules (Crucial for the Webpack plugin)
+          mkdir -p apps/web/node_modules/.prisma/client
+          cp -vR $PRISMA_SRC/* apps/web/node_modules/.prisma/client/
+          
+          # Standard @prisma/client location
           mkdir -p node_modules/@prisma/client
-          cp -vR packages/prisma/generated/prisma/* node_modules/@prisma/client/
+          cp -vR $PRISMA_SRC/* node_modules/@prisma/client/
 
-          # 4. Verify for the logs
-          ls -R node_modules/.prisma/client | head -n 10
-          # Small sleep to ensure FS is ready
-          sleep 2
+          # 4. Debug check: Does the file actually exist where the error says?
+          ls -l apps/web/node_modules/.prisma/client/index.js
         env:
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
 
       - name: Build Cal.com
-        run: |
-          # We use NEXTJS_IGNORE_TYPECHECK and a direct yarn build 
-          # to force the bundle even with decorator warnings.
-          yarn build
+        run: yarn build
         env:
-          # --- Critical Bypasses ---
-          NEXTJS_IGNORE_TYPECHECK: "true"
-          NEXTJS_IGNORE_ESLINT: "true"
-          TYPESCRIPT_IGNORE_BUILD_ERRORS: "true"
-          # -------------------------
-          NODE_OPTIONS: "--max_old_space_size=8192"
-          NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"
-          PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
-          TURBO_SKIP_NODE_MODULES_CHECK: "true"
+          NEXTJS_IGNORE_TYPECHECK: true
+          NEXTJS_IGNORE_ESLINT: true
+          # We provide the path relative to apps/web/
+          NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "./node_modules/.prisma/client"
+          PRISMA_CLIENT_PATH: "./node_modules/.prisma/client"
 
       - name: Package Build Artifacts
         run: |
