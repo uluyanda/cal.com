@@ -33,31 +33,27 @@ jobs:
 
       - name: Generate Prisma Client
         run: |
-          # Force Prisma to generate into the specific folder Cal.com expects
+          # 1. Run the generation
           yarn workspace @calcom/prisma prisma generate
           
-          # Debug: Let's see where it actually went to be 100% sure
-          find . -name "index-browser.js" | grep ".prisma/client"
-          
-          # Manual link to ensure root visibility
+          # 2. Based on your logs, the files are in 'packages/prisma/generated/prisma'
+          # We MUST move them to the root node_modules/.prisma/client for Webpack to see them
           mkdir -p node_modules/.prisma/client
-          cp -R packages/prisma/node_modules/.prisma/client/* node_modules/.prisma/client/ || true
+          cp -vR packages/prisma/generated/prisma/* node_modules/.prisma/client/
+          
+          # 3. Also place them in the @prisma/client folder for the workaround plugin
+          mkdir -p node_modules/@prisma/client
+          cp -vR packages/prisma/generated/prisma/* node_modules/@prisma/client/
         env:
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
-          PRISMA_GENERATE_DATAPROXY: true
 
       - name: Build Cal.com
         run: yarn build
         env:
-          # Fix for the TypeScript decorator errors
           NEXTJS_IGNORE_TYPECHECK: true
           NEXTJS_IGNORE_ESLINT: true
-          # These 3 variables are used by Cal.com's workaround plugin
-          NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "node_modules/.prisma/client"
-          PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
-          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
-          # Ensure Turbo knows where the outputs are
-          TURBO_SKIP_NODE_MODULES_CHECK: true
+          # Point the plugin specifically to the root node_modules we just populated
+          NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"     
 
       - name: Package Build Artifacts
         run: |
