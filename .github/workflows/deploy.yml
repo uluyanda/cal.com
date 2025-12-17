@@ -31,6 +31,36 @@ jobs:
           YARN_ENABLE_SCRIPTS: false
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
 
+       - name: Generate Prisma Client
+        run: |
+          # 1. Generate into the default location
+          yarn workspace @calcom/prisma prisma generate
+          
+          # 2. PHYSICALLY move the generated client to the root node_modules. 
+          # The plugin is crashing because it expects it here:
+          mkdir -p node_modules/.prisma/client
+          cp -vR packages/prisma/generated/prisma/* node_modules/.prisma/client/
+          
+          # 3. Also place it in the @prisma/client package directory
+          mkdir -p node_modules/@prisma/client
+          cp -vR packages/prisma/generated/prisma/* node_modules/@prisma/client/
+
+          # 4. Verify for the logs (helps us debug if it fails again)
+          ls -R node_modules/.prisma/client | head -n 10
+        env:
+          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
+
+      - name: Build Cal.com
+        run: yarn build
+        env:
+          NEXTJS_IGNORE_TYPECHECK: true
+          NEXTJS_IGNORE_ESLINT: true
+          # We tell the workaround plugin to look specifically at the root
+          NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"
+          PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
+
+
+/////////
       - name: Generate Prisma Client
         run: |
           # 1. Run the generation
