@@ -59,8 +59,6 @@ jobs:
           NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"
           PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
 
-
-/////////
       - name: Generate Prisma Client
         run: |
           # 1. Run the generation
