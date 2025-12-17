@@ -31,13 +31,12 @@ jobs:
           YARN_ENABLE_SCRIPTS: false
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
 
-     - name: Generate Prisma Client
+      - name: Generate Prisma Client
         run: |
           # 1. Run the generation
           yarn workspace @calcom/prisma prisma generate
           
-          # 2. Hard-code the copy to the ROOT node_modules
-          # Your logs show Prisma outputs to: packages/prisma/generated/prisma
+          # 2. Hard-code the copy to the ROOT node_modules where Webpack looks
           mkdir -p node_modules/.prisma/client
           cp -vR packages/prisma/generated/prisma/* node_modules/.prisma/client/
           
@@ -45,7 +44,7 @@ jobs:
           mkdir -p apps/web/node_modules/.prisma/client
           cp -vR packages/prisma/generated/prisma/* apps/web/node_modules/.prisma/client/
           
-          # 4. Populate the @prisma/client folder for direct imports
+          # 4. Populate the @prisma/client folder
           mkdir -p node_modules/@prisma/client
           cp -vR packages/prisma/generated/prisma/* node_modules/@prisma/client/
         env:
@@ -56,18 +55,19 @@ jobs:
         env:
           NEXTJS_IGNORE_TYPECHECK: true
           NEXTJS_IGNORE_ESLINT: true
-          # This variable tells Cal.com's custom plugin where to look
           NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"
           PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
           TURBO_SKIP_NODE_MODULES_CHECK: true
 
       - name: Package Build Artifacts
         run: |
+          # We MUST include the generated prisma client in the tarball
           tar -czf calcom-build.tar.gz \
             apps/web/.next/ \
             apps/web/public/ \
             apps/web/next.config.js \
             apps/web/package.json \
+            node_modules/.prisma/ \
             package.json \
             yarn.lock \
             .yarnrc.yml \
@@ -94,7 +94,9 @@ jobs:
             tar -xzf calcom-build.tar.gz
             rm calcom-build.tar.gz
             corepack enable
-            # Focus only on the production workspace
+            yarn config set nodeLinker node-modules
+            # Install only production deps on the VPS
             yarn workspaces focus @calcom/web --production
+            # Restart or start the app
             pm2 restart calcom || pm2 start "yarn workspace @calcom/web start" --name calcom
             pm2 save
