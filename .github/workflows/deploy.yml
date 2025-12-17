@@ -31,7 +31,6 @@ jobs:
           YARN_ENABLE_SCRIPTS: false
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
 
-
      - name: Generate Prisma Client
         run: |
           # 1. Run the generation
