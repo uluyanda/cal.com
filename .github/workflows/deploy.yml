@@ -33,27 +33,32 @@ jobs:
 
       - name: Generate Prisma Client
         run: |
-          # 1. Run the generation
+          # 1. Run generation
           yarn workspace @calcom/prisma prisma generate
           
-          # 2. Based on your logs, the files are in 'packages/prisma/generated/prisma'
-          # We MUST move them to the root node_modules/.prisma/client for Webpack to see them
+          # 2. We must put the client in the ROOT node_modules for the workaround plugin to find it
+          # Based on your previous log, the source is: packages/prisma/generated/prisma
           mkdir -p node_modules/.prisma/client
-          cp -vR packages/prisma/generated/prisma/* node_modules/.prisma/client/
+          cp -R packages/prisma/generated/prisma/* node_modules/.prisma/client/
           
-          # 3. Also place them in the @prisma/client folder for the workaround plugin
+          # 3. Create a secondary link just in case
           mkdir -p node_modules/@prisma/client
-          cp -vR packages/prisma/generated/prisma/* node_modules/@prisma/client/
+          cp -R packages/prisma/generated/prisma/* node_modules/@prisma/client/
         env:
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
 
       - name: Build Cal.com
         run: yarn build
         env:
+          # These ignore the TS decorator errors you see in the logs
           NEXTJS_IGNORE_TYPECHECK: true
           NEXTJS_IGNORE_ESLINT: true
-          # Point the plugin specifically to the root node_modules we just populated
-          NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"     
+          # The workaround plugin looks for this variable specifically
+          # We point it to the root node_modules relative to apps/web
+          NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"
+          # Standard Prisma envs
+          PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
+          TURBO_SKIP_NODE_MODULES_CHECK: true
 
       - name: Package Build Artifacts
         run: |
