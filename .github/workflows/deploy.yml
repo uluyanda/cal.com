@@ -33,31 +33,31 @@ jobs:
 
       - name: Generate Prisma Client
         run: |
+          # Force Prisma to generate into the specific folder Cal.com expects
           yarn workspace @calcom/prisma prisma generate
           
-          # 1. Ensure the root has it (where the error log is pointing)
+          # Debug: Let's see where it actually went to be 100% sure
+          find . -name "index-browser.js" | grep ".prisma/client"
+          
+          # Manual link to ensure root visibility
           mkdir -p node_modules/.prisma/client
           cp -R packages/prisma/node_modules/.prisma/client/* node_modules/.prisma/client/ || true
-          
-          # 2. Ensure the Web app has it locally
-          mkdir -p apps/web/node_modules/.prisma/client
-          cp -R packages/prisma/node_modules/.prisma/client/* apps/web/node_modules/.prisma/client/ || true
-          
-          # 3. Double check the specific prisma client package location
-          mkdir -p node_modules/@prisma/client
-          cp -R packages/prisma/node_modules/@prisma/client/* node_modules/@prisma/client/ || true
         env:
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
+          PRISMA_GENERATE_DATAPROXY: true
 
       - name: Build Cal.com
         run: yarn build
         env:
-          # Keep these to bypass the TypeScript errors from your earlier logs
+          # Fix for the TypeScript decorator errors
           NEXTJS_IGNORE_TYPECHECK: true
           NEXTJS_IGNORE_ESLINT: true
-          # Force the workaround plugin to look at the root node_modules
+          # These 3 variables are used by Cal.com's workaround plugin
+          NEXT_MONOREPO_WORKAROUND_PRISMA_PATH: "node_modules/.prisma/client"
           PRISMA_CLIENT_PATH: "../../node_modules/.prisma/client"
-          NEXT__MONOREPO_WORKAROUND_PRISMA_PATH: "../../node_modules/.prisma/client"
+          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
+          # Ensure Turbo knows where the outputs are
+          TURBO_SKIP_NODE_MODULES_CHECK: true
 
       - name: Package Build Artifacts
         run: |
